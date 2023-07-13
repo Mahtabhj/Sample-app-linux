@@ -1,0 +1,25 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    branches:
+      - hotfix
+      - main
+    types:
+      - closed
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'hotfix' }}
+        run: |
+          # Add your test commands here
+          echo "this is a test comment"
+        shell: bash
