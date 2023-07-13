@@ -15,10 +15,8 @@ jobs:
 
       - name: Set up GitHub CLI
         run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
           sudo apt update
-          sudo apt install gh
+          sudo apt install -y gh
 
       - name: Create Pull Request to Develop
         if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'hotfix'
@@ -26,4 +24,4 @@ jobs:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh auth login --with-token <<<"${PAT_TOKEN}"
-          gh pr create --base=develop --head=hotfix --title="New Pull Request to Develop" --body="This is a new pull request to merge hotfix changes into the develop branch." --labels="hotfix,merge" --reviewer=username1 --reviewer=username2
+          gh pr create --base=develop --head=hotfix --title="New Pull Request to Develop" --body="This is a new pull request to merge hotfix changes into the develop branch." --labels="hotfix,merge"
