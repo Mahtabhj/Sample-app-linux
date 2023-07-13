@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd /home/ec2-user/nodejs-aws-codedeploy-pipeline
-npm install
+sudo npm install
 sudo pm2 stop nodejs-express-app
 sudo pm2 start nodejs-express-app
