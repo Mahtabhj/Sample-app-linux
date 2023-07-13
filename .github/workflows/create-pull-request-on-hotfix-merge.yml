@@ -15,11 +15,8 @@ jobs:
 
       - name: Create Pull Request to Develop
         if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'hotfix'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: develop
-          title: New Pull Request to Develop from hotfix
-          body: This is a new pull request to merge hotfix changes into the develop branch.
-          labels: hotfix, merge
-
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          gh auth login --with-token <<<"${PAT_TOKEN}"
+          gh pr create --base=develop --head=hotfix --title="New Pull Request to Develop" --body="This is a new pull request to merge hotfix changes into the develop branch." --labels="hotfix,merge" --reviewer=username1 --reviewer=username2
