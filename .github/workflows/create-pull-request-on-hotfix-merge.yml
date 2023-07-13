@@ -1,27 +1,25 @@
-name: Hotfix Pull Request Workflow
+name: Create Pull Request to Develop
 
 on:
   pull_request:
-    branches:
-      - hotfix
-      - main
     types:
       - closed
-  workflow_dispatch:
 
 jobs:
-  build:
+  create_pr_to_develop:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run test
-        run: npm run test
+      - name: Create Pull Request to Develop
+        if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'hotfix'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: develop
+          title: New Pull Request to Develop from hotfix
+          body: This is a new pull request to merge hotfix changes into the develop branch.
+          labels: hotfix, merge
 
-      - name: Create pull request on develop
-        if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'hotfix' }}
-        run: |
-          echo "this is a test comment"
-        shell: bash
