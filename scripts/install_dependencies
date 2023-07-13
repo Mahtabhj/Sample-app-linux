@@ -1,3 +1,20 @@
 #!/bin/bash
-yum install -y httpd
-
+sudo yum update
+sudo yum upgrade
+sudp install -y git htop wget
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm install --lts # Latest stable node js server version
+cd /home/ec2-user
+git clone https://github.com/Mahtabhj/nodejs-aws-codedeploy-pipeline.git
+cd nodejs-aws-codedeploy-pipeline
+npm install
+npm install -g pm2 # may require sudo
+sudo ln -s "$(which node)" /sbin/node
+sudo ln -s "$(which npm)" /sbin/npm
+sudo ln -s "$(which pm2)" /sbin/pm2
+sudo pm2 start app.js --name=nodejs-express-app
+sudo pm2 save
+sudo pm2 startup # starts pm2 on computer boot
