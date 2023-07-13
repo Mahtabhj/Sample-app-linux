@@ -1,4 +1,4 @@
-name: Pull Request Workflow
+name: Hotfix Pull Request Workflow
 
 on:
   pull_request:
@@ -17,9 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Run test
+        run: npm run test
+
+      - name: Create pull request on develop
         if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'hotfix' }}
         run: |
-          # Add your test commands here
           echo "this is a test comment"
         shell: bash
