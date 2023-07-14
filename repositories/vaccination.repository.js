@@ -2,11 +2,10 @@ const { Vaccination } = require("../models/vaccination.model");
 
 exports.getVaccination = async (user_id) => {
   try {
-    const vaccinations = await Vaccination.find({
+    const vaccination = await Vaccination.find({
       user_id: user_id,
     });
-    console.log("My Vaccine");
-    return vaccinations;
+    return vaccination;
   } catch (error) {
     console.error("Error fetching vaccination details:", error);
     throw error;

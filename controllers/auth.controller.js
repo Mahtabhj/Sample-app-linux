@@ -28,13 +28,10 @@ exports.registerUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     const body = req.body;
-    const loggedInUserResponse = await authService.loginUser(body);
+    const loginUserResponse = await authService.loginUser(body);
 
-    res.cookie("jwt", loggedInUserResponse.token);
-    const clientResponse = {
-      data: loggedInUserResponse.data,
-      message: "Login is successful",
-    };
+    res.cookie("jwt", loginUserResponse);
+    const clientResponse = { message: "Login is successful" };
 
     return contentNegotiation.sendResponseInContentNegotiation(
       req,

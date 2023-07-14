@@ -5,17 +5,13 @@ const vaccineService = require("../services/vaccine.service");
 const userService = require("../services/user.service");
 const mongoose = require("mongoose");
 
-exports.getVaccination = async (n_id) => {
-  const userObject = await userService.getUserByNID(n_id);
-
-  const user_id = userObject.user._id.toString();
-
+exports.getVaccination = async (user_id) => {
   const vaccinationResponse = await vaccinationRepository.getVaccination(
     user_id
   );
 
   if (!vaccinationResponse) {
-    return "Empty";
+    throw new AppError("Vaccine not Found", 404);
   }
   return vaccinationResponse;
 };

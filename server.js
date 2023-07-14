@@ -1,38 +1,28 @@
-const userRepository = require("../repositories/user.repository");
-const UserDTO = require("../utils/user.dto");
-const userValidationUtil = require("../utils/user.validation.util");
-const userNotFoundMessage = "User not found";
-const { AppError } = require("../utils/error.handler.util");
-
-exports.createUser = async (body) => {
-  const name = body.name;
-  const address = body.address;
-  const n_id = body.n_id;
-  const password = await userValidationUtil.generateHashPassword(body.password);
-
-  const newUser = await userRepository.createUser(
-    name,
-    address,
-    n_id,
-    password
-  );
-
-  const dtoUser = new UserDTO(newUser);
-  return dtoUser;
-};
-
-exports.getUserByNID = async (n_id) => {
-  const userResponse = await userRepository.getUserByNID(n_id);
-  console.log("My NID", n_id);
-
-  const dtoUser = new UserDTO(userResponse);
-  return dtoUser;
-};
-
-exports.getUserLoginInfo = async (n_id) => {
-  const user = await userRepository.getUserByNID(n_id);
-  if (!user) {
-    throw new AppError(userNotFoundMessage, 404);
-  }
-  return user;
-};
+const mongoose = require('mongoose');
+  
+// Database Connection
+mongoose.connect('mongodb+srv://rakib3004:Rakib1129@cluster0.x52uqti.mongodb.net/University',{
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+});
+  
+// User model
+const User = mongoose.model('User',{
+    name: { type: String },
+    age: { type: Number }
+});
+  
+var new_user = new User({
+    name: 'Rakib',
+    age:23
+})
+  
+new_user.save((err,result)=>{
+    if (err){
+        console.log(err);
+    }
+    else{
+        console.log(result)
+    }
+})

@@ -3,9 +3,11 @@ const vaccinationService = require("../services/vaccination.service");
 
 exports.getVaccination = async (req, res, next) => {
   try {
-    const n_id = req.params.n_id;
+    const user_id = req.params.user_id;
 
-    const vaccinationResponse = await vaccinationService.getVaccination(n_id);
+    const vaccinationResponse = await vaccinationService.getVaccination(
+      user_id
+    );
 
     return contentNegotiation.sendResponseInContentNegotiation(
       req,
