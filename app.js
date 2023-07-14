@@ -12,7 +12,7 @@ const HOST = process.env.HOST;
 const cors = require("cors");
 app.use(
   cors({
-    credentials: true,
+    credentials: false,
   })
 );
 app.use(express.json());
